@@ -48,7 +48,9 @@ describe("Item language inference policy", function () {
     Zotero.Items.get = ((id) =>
       id === item.id
         ? item
-        : originalGet.call(Zotero.Items, id)) as typeof Zotero.Items.get;
+        : Reflect.apply(originalGet, Zotero.Items, [
+            id,
+          ])) as typeof Zotero.Items.get;
     Zotero.Items.getTopLevel = ((items) =>
       items[0] === item
         ? [item]
